@@ -9,16 +9,9 @@ cd depai
 
 # 下载并执行安装脚本
 echo "Downloading the installation script..."
-if ! curl -fsSL -o /tmp/install.sh https://depai.online/downloads/install.sh; then
-    echo "下载安装脚本失败！请检查网络连接或 URL 是否正确。"
-    exit 1
-fi
-
+curl -fsSL -o /tmp/install.sh https://depai.online/downloads/install.sh
 echo "Running the installation script..."
-if ! source /tmp/install.sh login; then
-    echo "运行安装脚本失败！"
-    exit 1
-fi
+source /tmp/install.sh login
 
 # 菜单函数
 function show_menu() {
@@ -46,37 +39,27 @@ while true; do
             read -sp "请输入您的密码: " login_password
             echo
             echo "正在登录..."
-            if ! depai login "$login_account" "$login_password"; then
-                echo "登录失败，请检查您的账户和密码。"
-            fi
+            depai login "$login_account" "$login_password"
             ;;
         2)
             # 创建 Worker
             echo "正在创建 Worker..."
-            if ! depai create; then
-                echo "创建 Worker 失败！"
-            fi
+            depai create
             ;;
         3)
             # 初始化 Worker
             echo "正在初始化 Worker..."
-            if ! depai init; then
-                echo "初始化 Worker 失败！"
-            fi
+            depai init
             ;;
         4)
             # 将 Worker 设为在线
             echo "将 Worker 设为在线..."
-            if ! depai online; then
-                echo "设置 Worker 为在线失败！"
-            fi
+            depai online
             ;;
         5)
             # 升级客户端
             echo "正在升级 Depai 客户端..."
-            if ! depai upgrade; then
-                echo "升级 Depai 客户端失败！"
-            fi
+            depai upgrade
             ;;
         6)
             # 退出
